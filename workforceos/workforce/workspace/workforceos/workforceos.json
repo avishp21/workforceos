@@ -1,7 +1,7 @@
 {
  "app": "workforceos",
  "charts": [],
- "content": "[{\"id\":\"wos_hdr_shortcuts\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"wos_sc_console\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Allocation Console\",\"col\":3}},{\"id\":\"wos_sc_demo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Generate Demo Data\",\"col\":3}},{\"id\":\"wos_sc_bulk_delete\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Bulk Delete\",\"col\":3}},{\"id\":\"wos_sc_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Assignment\",\"col\":3}},{\"id\":\"wos_sc_attendance\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workforce Attendance\",\"col\":3}},{\"id\":\"wos_sc_daily_line_plan\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Line Plan\",\"col\":3}},{\"id\":\"wos_sc_employee\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workforce Employee\",\"col\":3}},{\"id\":\"wos_sc_contractor\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contractor\",\"col\":3}},{\"id\":\"wos_sc_production_line\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Line\",\"col\":3}},{\"id\":\"wos_sc_shift\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift\",\"col\":3}},{\"id\":\"wos_spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wos_hdr_planning\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Planning</b></span>\",\"col\":12}},{\"id\":\"wos_card_planning\",\"type\":\"card\",\"data\":{\"card_name\":\"Planning\",\"col\":4}},{\"id\":\"wos_spacer_2\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wos_hdr_attendance\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Attendance</b></span>\",\"col\":12}},{\"id\":\"wos_card_attendance\",\"type\":\"card\",\"data\":{\"card_name\":\"Attendance\",\"col\":4}},{\"id\":\"wos_spacer_3\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wos_hdr_allocation\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Allocation</b></span>\",\"col\":12}},{\"id\":\"wos_card_allocation\",\"type\":\"card\",\"data\":{\"card_name\":\"Allocation\",\"col\":4}},{\"id\":\"wos_spacer_4\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wos_hdr_masters\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters</b></span>\",\"col\":12}},{\"id\":\"wos_card_masters\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}}]",
+ "content": "[{\"id\": \"wos_hdr_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"wos_sc_console\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Allocation Console\", \"col\": 3}}, {\"id\": \"wos_sc_demo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Generate Demo Data\", \"col\": 3}}, {\"id\": \"wos_sc_assignment\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Assignment\", \"col\": 3}}, {\"id\": \"wos_sc_attendance\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Attendance\", \"col\": 3}}, {\"id\": \"wos_sc_daily_line_plan\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Daily Line Plan\", \"col\": 3}}, {\"id\": \"wos_sc_employee\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Employee\", \"col\": 3}}, {\"id\": \"wos_sc_contractor\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Contractor\", \"col\": 3}}, {\"id\": \"wos_sc_production_line\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Production Line\", \"col\": 3}}, {\"id\": \"wos_sc_shift\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Shift\", \"col\": 3}}, {\"id\": \"wos_spacer_1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"wos_card_masters\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters\", \"col\": 4}}, {\"id\": \"wos_card_planning\", \"type\": \"card\", \"data\": {\"card_name\": \"Planning\", \"col\": 4}}, {\"id\": \"wos_card_attendance\", \"type\": \"card\", \"data\": {\"card_name\": \"Attendance\", \"col\": 4}}, {\"id\": \"wos_card_allocation\", \"type\": \"card\", \"data\": {\"card_name\": \"Allocation\", \"col\": 4}}, {\"id\": \"wos_card_reports\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"wos_card_logs\", \"type\": \"card\", \"data\": {\"card_name\": \"Logs\", \"col\": 4}}, {\"id\": \"wos_card_utilities\", \"type\": \"card\", \"data\": {\"card_name\": \"Utilities\", \"col\": 4}}]",
  "creation": "2026-07-14 00:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,176 +13,6 @@
  "is_hidden": 0,
  "label": "WorkforceOS",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Planning",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Daily Line Plan",
-   "link_count": 0,
-   "link_to": "Daily Line Plan",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Attendance",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Workforce Attendance",
-   "link_count": 0,
-   "link_to": "Workforce Attendance",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Allocation",
-   "link_count": 11,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Allocation Console",
-   "link_count": 0,
-   "link_to": "allocation-console",
-   "link_type": "Page",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Generate Demo Data",
-   "link_count": 0,
-   "link_to": "generate-demo-data",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Bulk Delete",
-   "link_count": 0,
-   "link_to": "bulk-delete",
-   "link_type": "Page",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Employee Assignment",
-   "link_count": 0,
-   "link_to": "Employee Assignment",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Allocation Rule",
-   "link_count": 0,
-   "link_to": "Allocation Rule",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Allocation Decision Log",
-   "link_count": 0,
-   "link_to": "Allocation Decision Log",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Employee Allocation Report",
-   "link_count": 0,
-   "link_to": "Employee Allocation Report",
-   "link_type": "Report",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Line Manpower Summary",
-   "link_count": 0,
-   "link_to": "Line Manpower Summary",
-   "link_type": "Report",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Unallocated Employees",
-   "link_count": 0,
-   "link_to": "Unallocated Employees",
-   "link_type": "Report",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 1,
-   "label": "Allocation Run Summary",
-   "link_count": 0,
-   "link_to": "Allocation Run Summary",
-   "link_type": "Report",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Allocation Run",
-   "link_count": 0,
-   "link_to": "Allocation Run",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -257,9 +87,195 @@
    "link_type": "DocType",
    "onboard": 1,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Planning",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Line Plan",
+   "link_count": 0,
+   "link_to": "Daily Line Plan",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Attendance",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Workforce Attendance",
+   "link_count": 0,
+   "link_to": "Workforce Attendance",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Allocation",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee Assignment",
+   "link_count": 0,
+   "link_to": "Employee Assignment",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Allocation Rule",
+   "link_count": 0,
+   "link_to": "Allocation Rule",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Allocation Run",
+   "link_count": 0,
+   "link_to": "Allocation Run",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Unallocated Employees",
+   "link_count": 0,
+   "link_to": "Unallocated Employees",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Employee Allocation",
+   "link_count": 0,
+   "link_to": "Employee Allocation Report",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Line Manpower Summary",
+   "link_count": 0,
+   "link_to": "Line Manpower Summary",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Allocation Run Summary",
+   "link_count": 0,
+   "link_to": "Allocation Run Summary",
+   "link_type": "Report",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Logs",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Decision Log",
+   "link_count": 0,
+   "link_to": "Allocation Decision Log",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Utilities",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Generate Demo Data",
+   "link_count": 0,
+   "link_to": "generate-demo-data",
+   "link_type": "Page",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Allocation Console",
+   "link_count": 0,
+   "link_to": "allocation-console",
+   "link_type": "Page",
+   "onboard": 1,
+   "type": "Link"
   }
  ],
- "modified": "2026-07-15 12:56:00.000000",
+ "modified": "2026-07-15 16:40:00.000000",
  "modified_by": "Administrator",
  "module": "Workforce",
  "name": "WorkforceOS",
@@ -282,12 +298,6 @@
    "color": "Grey",
    "label": "Generate Demo Data",
    "link_to": "generate-demo-data",
-   "type": "Page"
-  },
-  {
-   "color": "Red",
-   "label": "Bulk Delete",
-   "link_to": "bulk-delete",
    "type": "Page"
   },
   {
