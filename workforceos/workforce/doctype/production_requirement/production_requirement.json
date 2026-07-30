@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "creation": "2026-07-30 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "production_line",
+  "designation",
+  "skill",
+  "required_manpower",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "production_line",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Production Line",
+   "options": "Production Line",
+   "reqd": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Designation",
+   "options": "Workforce Designation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "skill",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Skill",
+   "options": "Skill",
+   "reqd": 1
+  },
+  {
+   "fieldname": "required_manpower",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Required Manpower",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Remarks"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-07-30 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Workforce",
+ "name": "Production Requirement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

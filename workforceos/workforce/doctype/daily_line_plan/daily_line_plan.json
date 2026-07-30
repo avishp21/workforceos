@@ -14,6 +14,7 @@
   "line",
   "column_break_plan",
   "status",
+  "daily_production_plan",
   "requirements_section",
   "requirements",
   "remarks_section",
@@ -67,6 +68,13 @@
    "label": "Status",
    "options": "Draft\nPlanned\nCompleted",
    "reqd": 1
+  },
+  {
+   "fieldname": "daily_production_plan",
+   "fieldtype": "Link",
+   "label": "Daily Production Plan",
+   "options": "Daily Production Plan",
+   "read_only": 1
   },
   {
    "fieldname": "requirements_section",
