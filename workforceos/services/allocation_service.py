@@ -12,7 +12,18 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import getdate, now
 
-from workforceos.services.allocation_decision_logger import AllocationDecisionLogger
+from workforceos.services.allocation_run_dashboard_service import (
+	apply_dashboard_metrics,
+	enrich_execution_stats,
+)
+from workforceos.services.employee_allocation_evaluation_service import (
+	EmployeeAllocationEvaluationService,
+	EvaluationRunStats,
+	PendingEmployeeEvaluation,
+	attach_selection_reasons,
+)
+from workforceos.services.competency_service import CompetencyService
+from workforceos.services.preference_rule_engine import PreferenceRuleEngine
 from workforceos.services.rule_engine import RuleEngine
 from workforceos.utils.exceptions import AllocationError
 
@@ -23,7 +34,8 @@ class AllocationService:
 	def __init__(self) -> None:
 		"""Initialize allocation dependencies."""
 		self.rule_engine = RuleEngine()
-		self.decision_logger = AllocationDecisionLogger(self.rule_engine)
+		self.evaluation_service = EmployeeAllocationEvaluationService(self.rule_engine)
+		self.preference_rule_engine = PreferenceRuleEngine()
 
 	def allocate(self, allocation_date: str | date, shift: str) -> Document:
 		"""Run workforce allocation for a date and shift.
@@ -150,6 +162,7 @@ class AllocationService:
 			"assignments_created": 0,
 			"lines_processed": 0,
 		}
+		self.evaluation_service.stats = EvaluationRunStats()
 		line_summaries: dict[str, dict[str, Any]] = {}
 		assigned_employees: set[str] = set()
 
@@ -194,6 +207,9 @@ class AllocationService:
 						shift=shift,
 						employee=candidate["employee"]["name"],
 						production_line=production_line,
+						matched_competency=candidate.get("matched_competency"),
+						selection_reason=candidate.get("allocation_selection_reason"),
+						applied_preference_rules=candidate.get("applied_preference_rules"),
 					)
 					self._mark_attendance_allocated(
 						attendance_name=candidate["attendance"]["name"],
@@ -205,10 +221,19 @@ class AllocationService:
 					line_summary["allocated"] += 1
 
 		stats["total_shortage"] = stats["total_required"] - stats["total_allocated"]
+		enrich_execution_stats(stats, plans)
 		stats["line_summaries"] = sorted(
 			line_summaries.values(),
 			key=lambda item: item["line_label"],
 		)
+		stats["evaluation_metrics"] = {
+			"employees_evaluated": self.evaluation_service.stats.evaluated,
+			"employees_allocated": self.evaluation_service.stats.allocated,
+			"employees_rejected": self.evaluation_service.stats.rejected,
+			"employees_skipped": self.evaluation_service.stats.skipped,
+			"certified_allocations": self.evaluation_service.stats.certified_allocations,
+			"non_certified_allocations": self.evaluation_service.stats.non_certified_allocations,
+		}
 		stats["unallocated_employees"] = self._get_unallocated_employees(
 			attendance_map=attendance_map,
 			employee_map=employee_map,
@@ -251,9 +276,11 @@ class AllocationService:
 		employees = frappe.get_all(
 			"Workforce Employee",
 			filters={"name": ["in", list(employee_names)]},
-			fields=["name", "employee_name", "designation", "skill", "default_line", "default_shift", "status"],
+			fields=["name", "employee_name", "employee_id", "default_line", "default_shift", "status"],
 		)
-		return {employee.name: employee for employee in employees}
+		employee_map = {employee.name: employee for employee in employees}
+		CompetencyService.attach_competencies_to_employees(employee_map)
+		return employee_map
 
 	def _select_employees(
 		self,
@@ -272,9 +299,10 @@ class AllocationService:
 		assigned_employees: set[str],
 		required_manpower: int,
 	) -> list[dict[str, Any]]:
-		"""Select the best employees for a manpower requirement."""
+		"""Select employees for a manpower requirement using deterministic ranking."""
+		del line_label
 		candidates = []
-		evaluations = []
+		pending_evaluations: list[PendingEmployeeEvaluation] = []
 
 		for employee_name, attendance in attendance_map.items():
 			employee = employee_map.get(employee_name)
@@ -290,15 +318,12 @@ class AllocationService:
 				shift=shift,
 			)
 			if skip_reason:
-				self.decision_logger.log_skipped_employee(
+				self.evaluation_service.log_skipped_employee(
 					allocation_run=run.name,
-					daily_line_plan=plan.name,
-					employee=employee_name,
-					requirement=requirement,
+					employee=employee,
 					production_line=production_line,
 					reason=skip_reason,
 				)
-				evaluations.append({"employee_name": employee_name, "skipped": True})
 				continue
 
 			context = {
@@ -310,39 +335,54 @@ class AllocationService:
 				"allocation_date": allocation_date,
 				"assigned_employees": assigned_employees,
 			}
+			CompetencyService.enrich_rule_context(context)
 
-			evaluation = self.decision_logger.evaluate_employee_for_requirement(
+			evaluation = self.evaluation_service.evaluate_employee_for_requirement(
 				allocation_run=run.name,
-				daily_line_plan=plan.name,
 				employee=employee,
-				requirement=requirement,
 				production_line=production_line,
 				eligibility_rules=eligibility_rules,
 				validation_rules=validation_rules,
-				preference_rules=preference_rules,
 				context=context,
 			)
-			evaluations.append(evaluation)
+
+			if evaluation.get("pending"):
+				pending_evaluations.append(evaluation["pending"])
 
 			if evaluation["eligible"]:
 				candidates.append(
 					{
 						"employee": employee,
 						"attendance": attendance,
-						"score": evaluation["score"],
+						"matched_competency": context.get("matched_competency"),
+						"competency_selection_reason": context.get("competency_selection_reason"),
 					}
 				)
 
-		candidates.sort(key=lambda item: item["score"], reverse=True)
-		selected = candidates[:required_manpower]
+		selection_context = {
+			"requirement": requirement,
+			"production_line": production_line,
+			"shift": shift,
+			"allocation_date": allocation_date,
+		}
+		selection_result = self.preference_rule_engine.select_candidates(
+			candidates=candidates,
+			preference_rules=preference_rules,
+			context=selection_context,
+		)
+		ranked_candidates = selection_result["candidates"]
+		applied_preference_rules = selection_result["applied_preference_rules"]
+		selected = ranked_candidates[:required_manpower]
+		for candidate in selected:
+			candidate["applied_preference_rules"] = applied_preference_rules
+		attach_selection_reasons(selected, applied_preference_rules)
 		selected_names = {candidate["employee"]["name"] for candidate in selected}
-		self.decision_logger.finalize_requirement_decisions(
+		self.evaluation_service.finalize_requirement_evaluations(
 			allocation_run=run.name,
-			daily_line_plan=plan.name,
-			requirement=requirement,
 			production_line=production_line,
-			line_label=line_label,
-			evaluations=evaluations,
+			pending_evaluations=pending_evaluations,
+			preference_rules=preference_rules,
+			selection_result=selection_result,
 			selected_employee_names=selected_names,
 		)
 		return selected
@@ -381,8 +421,17 @@ class AllocationService:
 		shift: str,
 		employee: str,
 		production_line: str,
+		matched_competency: dict[str, Any] | None = None,
+		selection_reason: str | None = None,
+		applied_preference_rules: list[dict[str, Any]] | None = None,
 	) -> Document:
 		"""Create an employee assignment for the allocation run."""
+		matched_competency = matched_competency or {}
+		log_fields = CompetencyService.build_matched_competency_log_fields(
+			matched_competency,
+			selection_reason=selection_reason,
+			applied_preference_rules=applied_preference_rules,
+		)
 		assignment = frappe.get_doc(
 			{
 				"doctype": "Employee Assignment",
@@ -393,6 +442,13 @@ class AllocationService:
 				"production_line": production_line,
 				"assignment_status": "Assigned",
 				"assignment_type": "Auto",
+				"matched_competency": log_fields.get("matched_competency"),
+				"matched_designation": log_fields.get("matched_designation"),
+				"matched_skill": log_fields.get("matched_skill"),
+				"matched_competency_priority": log_fields.get("matched_competency_priority"),
+				"matched_certified": log_fields.get("matched_certified"),
+				"applied_preference_rules": log_fields.get("applied_preference_rules"),
+				"selection_reason": log_fields.get("selection_reason"),
 			}
 		)
 		assignment.insert(ignore_permissions=True)
@@ -407,14 +463,10 @@ class AllocationService:
 
 	def _finalize_success(self, run: Document, stats: dict[str, int], started_at: float) -> None:
 		"""Update allocation run after successful execution."""
-		run.total_required = stats["total_required"]
-		run.total_allocated = stats["total_allocated"]
-		run.total_shortage = stats["total_shortage"]
-		run.lines_processed = stats["lines_processed"]
-		run.assignments_created = stats["assignments_created"]
+		execution_time_seconds = round(perf_counter() - started_at, 2)
+		apply_dashboard_metrics(run, stats, execution_time_seconds)
 		run.status = "Completed"
 		run.completed_on = now()
-		run.execution_time_seconds = round(perf_counter() - started_at, 2)
 		run.save(ignore_permissions=True)
 
 	def _finalize_failure(self, run: Document, started_at: float) -> None:
@@ -521,6 +573,7 @@ class AllocationService:
 					"allocation_date": allocation_date,
 					"assigned_employees": assigned_employees,
 				}
+				CompetencyService.enrich_rule_context(context)
 				reason = self._get_first_rule_failure(
 					context,
 					eligibility_rules + validation_rules,
@@ -564,8 +617,9 @@ class AllocationService:
 	def _friendly_rule_reason(self, rule_code: str, message: str | None = None) -> str:
 		"""Map rule codes to user-friendly allocation summary reasons."""
 		reason_map = {
-			"skill_match": _("Skill mismatch"),
-			"designation_match": _("Designation mismatch"),
+			"competency_match": _("Competency mismatch"),
+			"skill_match": _("Competency mismatch"),
+			"designation_match": _("Competency mismatch"),
 			"duplicate_assignment": _("Already Assigned"),
 			"employee_active": _("Inactive"),
 			"attendance_present": _("Not Present"),

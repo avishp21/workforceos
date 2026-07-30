@@ -1,0 +1,15 @@
+.current-allocations-toolbar {
+	display: flex;
+	gap: 8px;
+	margin-bottom: 12px;
+	flex-wrap: wrap;
+}
+
+.current-allocations-meta {
+	margin-bottom: 12px;
+	color: var(--text-muted);
+}
+
+.current-allocations-table .btn-reallocate {
+	margin: 0;
+}

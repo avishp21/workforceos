@@ -1,0 +1,202 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-30 12:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "allocation_section",
+  "allocation_run",
+  "employee",
+  "employee_name",
+  "production_line",
+  "competency_section",
+  "matched_competency",
+  "certified",
+  "competency_priority",
+  "decision_section",
+  "final_decision",
+  "selection_reason",
+  "evaluation_status",
+  "metrics_section",
+  "execution_time_ms",
+  "rules_evaluated",
+  "created_on",
+  "rule_evaluations_section",
+  "rule_evaluations"
+ ],
+ "fields": [
+  {
+   "default": "EAE-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "EAE-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "allocation_section",
+   "fieldtype": "Section Break",
+   "label": "Allocation Context"
+  },
+  {
+   "fieldname": "allocation_run",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Allocation Run",
+   "options": "Allocation Run",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Employee",
+   "options": "Workforce Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "production_line",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Production Line",
+   "options": "Production Line"
+  },
+  {
+   "fieldname": "competency_section",
+   "fieldtype": "Section Break",
+   "label": "Matched Competency"
+  },
+  {
+   "fieldname": "matched_competency",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Matched Competency",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "certified",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Certified",
+   "read_only": 1
+  },
+  {
+   "fieldname": "competency_priority",
+   "fieldtype": "Int",
+   "label": "Competency Priority",
+   "read_only": 1
+  },
+  {
+   "fieldname": "decision_section",
+   "fieldtype": "Section Break",
+   "label": "Decision"
+  },
+  {
+   "fieldname": "final_decision",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Final Decision",
+   "options": "Allocated\nRejected\nSkipped",
+   "reqd": 1
+  },
+  {
+   "fieldname": "selection_reason",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Selection Reason"
+  },
+  {
+   "fieldname": "evaluation_status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Evaluation Status",
+   "options": "Completed\nStopped Early",
+   "reqd": 1
+  },
+  {
+   "fieldname": "metrics_section",
+   "fieldtype": "Section Break",
+   "label": "Metrics"
+  },
+  {
+   "fieldname": "execution_time_ms",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Execution Time (ms)",
+   "non_negative": 1,
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "rules_evaluated",
+   "fieldtype": "Int",
+   "label": "Rules Evaluated",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_on",
+   "fieldtype": "Datetime",
+   "label": "Created On",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rule_evaluations_section",
+   "fieldtype": "Section Break",
+   "label": "Allocation Rule Evaluations"
+  },
+  {
+   "fieldname": "rule_evaluations",
+   "fieldtype": "Table",
+   "label": "Allocation Rule Evaluations",
+   "options": "Allocation Rule Evaluation"
+  }
+ ],
+ "links": [],
+ "modified": "2026-07-30 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Workforce",
+ "name": "Employee Allocation Evaluation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "allocation_run, employee, employee_name, production_line, final_decision",
+ "show_name_in_global_search": 1,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

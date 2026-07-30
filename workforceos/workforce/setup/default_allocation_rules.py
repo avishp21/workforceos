@@ -33,38 +33,38 @@ DEFAULT_ALLOCATION_RULES = [
 		"description": "Employee attendance must match the planned shift.",
 	},
 	{
-		"rule_name": "Designation Match",
-		"rule_code": "designation_match",
+		"rule_name": "Competency Match",
+		"rule_code": "competency_match",
 		"rule_category": "Eligibility",
 		"priority": 4,
 		"score": 0,
-		"description": "Employee designation must match the line requirement.",
-	},
-	{
-		"rule_name": "Skill Match",
-		"rule_code": "skill_match",
-		"rule_category": "Eligibility",
-		"priority": 5,
-		"score": 0,
-		"description": "Employee skill must match the line requirement.",
+		"description": "Checks whether an employee possesses a Competency matching the required Designation and Skill combination.",
 	},
 	{
 		"rule_name": "Prevent Duplicate Assignment",
 		"rule_code": "duplicate_assignment",
 		"rule_category": "Validation",
-		"priority": 6,
+		"priority": 1,
 		"score": 0,
 		"description": "Prevent assigning the same employee twice for a date and shift.",
 	},
 	{
-		"rule_name": "Prefer Default Line",
-		"rule_code": "prefer_default_line",
+		"rule_name": "Prefer Certified Competency",
+		"rule_code": "prefer_certified_competency",
 		"rule_category": "Preference",
-		"priority": 7,
-		"score": 20,
-		"description": "Prefer assigning employees to their default production line.",
+		"priority": 1,
+		"score": 0,
+		"description": "When multiple employees match the required competency, employees having Certified = Yes should be preferred.",
 	},
 ]
+
+REMOVED_ALLOCATION_RULE_CODES = (
+	"competency_authorized",
+	"designation_match",
+	"skill_match",
+	"prefer_primary_competency",
+	"prefer_default_line",
+)
 
 
 def create_default_allocation_rules() -> None:

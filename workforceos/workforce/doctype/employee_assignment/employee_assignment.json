@@ -17,6 +17,15 @@
   "employee",
   "allocation_section",
   "production_line",
+  "workstation",
+  "matched_competency_section",
+  "matched_competency",
+  "matched_designation",
+  "matched_skill",
+  "matched_competency_priority",
+  "matched_certified",
+  "applied_preference_rules",
+  "selection_reason",
   "status_section",
   "assignment_status",
   "assignment_details_section",
@@ -94,6 +103,66 @@
    "label": "Production Line",
    "options": "Production Line",
    "reqd": 1
+  },
+  {
+   "fieldname": "workstation",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Workstation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_competency_section",
+   "fieldtype": "Section Break",
+   "label": "Matched Competency"
+  },
+  {
+   "fieldname": "matched_competency",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Matched Competency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Matched Designation",
+   "options": "Workforce Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_skill",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Matched Skill",
+   "options": "Skill",
+   "read_only": 1
+  },
+  {
+   "fieldname": "matched_competency_priority",
+   "fieldtype": "Int",
+   "label": "Matched Competency Priority",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "matched_certified",
+   "fieldtype": "Check",
+   "label": "Certified",
+   "read_only": 1
+  },
+  {
+   "fieldname": "selection_reason",
+   "fieldtype": "Small Text",
+   "label": "Selection Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "applied_preference_rules",
+   "fieldtype": "Small Text",
+   "label": "Applied Preference Rules",
+   "read_only": 1
   },
   {
    "fieldname": "status_section",

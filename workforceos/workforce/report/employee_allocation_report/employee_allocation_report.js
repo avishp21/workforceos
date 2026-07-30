@@ -37,5 +37,10 @@ frappe.query_reports["Employee Allocation Report"] = {
 			fieldtype: "Link",
 			options: "Workforce Designation",
 		},
+		{
+			fieldname: "certified",
+			label: __("Certified"),
+			fieldtype: "Check",
+		},
 	],
 };

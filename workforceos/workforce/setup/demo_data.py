@@ -453,14 +453,37 @@ def _create_employees(
 				used_full_names.add(employee_name)
 				break
 
+		designation = random.choice(designations)
+		skill = random.choice(skills)
+		competencies = [
+			{
+				"designation": designation,
+				"skill": skill,
+				"priority": 1,
+				"certified": 1,
+			}
+		]
+
+		if random.random() < 0.35 and len(designations) > 1:
+			secondary_designation = random.choice([item for item in designations if item != designation])
+			competencies.append(
+				{
+					"designation": secondary_designation,
+					"skill": random.choice(skills),
+					"priority": 2,
+					"certified": random.randint(0, 1),
+				}
+			)
+
 		doc = frappe.get_doc(
 			{
 				"doctype": "Workforce Employee",
 				"employee_id": employee_id,
 				"employee_name": employee_name,
 				"contractor": random.choice(contractors),
-				"designation": random.choice(designations),
-				"skill": random.choice(skills),
+				"designation": designation,
+				"skill": skill,
+				"competencies": competencies,
 				"default_line": random.choice(lines),
 				"default_shift": random.choice(shifts),
 				"status": "Active" if random.random() > 0.08 else "Inactive",
@@ -609,12 +632,20 @@ def _delete_demo_assignments() -> int:
 
 
 def _delete_demo_decision_logs() -> int:
+	deleted = 0
+	names = frappe.get_all(
+		"Employee Allocation Evaluation",
+		filters={"employee": ["like", f"{DEMO_PREFIX}-EMP-%"]},
+		pluck="name",
+	)
+	deleted += _delete_docs("Employee Allocation Evaluation", names)
 	names = frappe.get_all(
 		"Allocation Decision Log",
 		filters={"employee": ["like", f"{DEMO_PREFIX}-EMP-%"]},
 		pluck="name",
 	)
-	return _delete_docs("Allocation Decision Log", names)
+	deleted += _delete_docs("Allocation Decision Log", names)
+	return deleted
 
 
 def _delete_demo_allocation_runs() -> int:

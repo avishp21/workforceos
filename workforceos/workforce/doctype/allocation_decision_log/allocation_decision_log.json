@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "deprecated_notice",
   "allocation_section",
   "allocation_run",
   "planning_section",
@@ -19,6 +20,14 @@
   "production_line",
   "designation",
   "skill",
+  "matched_competency_section",
+  "matched_competency",
+  "matched_designation",
+  "matched_skill",
+  "matched_competency_priority",
+  "matched_certified",
+  "applied_preference_rules",
+  "selection_reason",
   "rule_section",
   "allocation_rule",
   "rule_code",
@@ -41,6 +50,12 @@
    "label": "Naming Series",
    "options": "ADL-.YYYY.-.#####",
    "reqd": 1
+  },
+  {
+   "fieldname": "deprecated_notice",
+   "fieldtype": "HTML",
+   "label": "Notice",
+   "options": "<div class=\"alert alert-warning\">This DocType is deprecated. New allocation runs write to <b>Employee Allocation Evaluation</b> instead.</div>"
   },
   {
    "fieldname": "allocation_section",
@@ -99,14 +114,62 @@
   {
    "fieldname": "designation",
    "fieldtype": "Link",
-   "label": "Designation",
+   "label": "Required Designation",
    "options": "Workforce Designation"
   },
   {
    "fieldname": "skill",
    "fieldtype": "Link",
-   "label": "Skill",
+   "label": "Required Skill",
    "options": "Skill"
+  },
+  {
+   "fieldname": "matched_competency_section",
+   "fieldtype": "Section Break",
+   "label": "Matched Competency"
+  },
+  {
+   "fieldname": "matched_competency",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Matched Competency"
+  },
+  {
+   "fieldname": "matched_designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Matched Designation",
+   "options": "Workforce Designation"
+  },
+  {
+   "fieldname": "matched_skill",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Matched Skill",
+   "options": "Skill"
+  },
+  {
+   "fieldname": "matched_competency_priority",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Competency Priority"
+  },
+  {
+   "default": "0",
+   "fieldname": "matched_certified",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Certified"
+  },
+  {
+   "fieldname": "selection_reason",
+   "fieldtype": "Small Text",
+   "label": "Selection Reason"
+  },
+  {
+   "fieldname": "applied_preference_rules",
+   "fieldtype": "Small Text",
+   "label": "Applied Preference Rules"
   },
   {
    "fieldname": "rule_section",

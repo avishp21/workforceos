@@ -13,7 +13,9 @@ from frappe import _
 
 # FK-safe delete order (dependents first).
 BULK_DELETE_DOCTYPES = [
+	"Employee Reallocation",
 	"Employee Assignment",
+	"Employee Allocation Evaluation",
 	"Allocation Decision Log",
 	"Allocation Run",
 	"Workforce Attendance",

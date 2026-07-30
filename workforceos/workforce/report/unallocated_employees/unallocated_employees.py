@@ -9,7 +9,9 @@ import frappe
 from frappe import _
 from frappe.utils import getdate, today
 
+from workforceos.services.competency_service import CompetencyService
 from workforceos.services.rule_engine import RuleEngine
+from workforceos.utils.report_helpers import append_competency_filters, primary_competency_join, competency_count_select
 
 
 def execute(filters: dict[str, Any] | None = None):
@@ -43,18 +45,24 @@ def get_columns() -> list[dict[str, Any]]:
 			"width": 160,
 		},
 		{
-			"label": _("Designation"),
-			"fieldname": "designation",
+			"label": _("Primary Designation"),
+			"fieldname": "primary_designation",
 			"fieldtype": "Link",
 			"options": "Workforce Designation",
 			"width": 160,
 		},
 		{
-			"label": _("Skill"),
-			"fieldname": "skill",
+			"label": _("Primary Skill"),
+			"fieldname": "primary_skill",
 			"fieldtype": "Link",
 			"options": "Skill",
 			"width": 140,
+		},
+		{
+			"label": _("Total Competencies"),
+			"fieldname": "total_competencies",
+			"fieldtype": "Int",
+			"width": 120,
 		},
 		{
 			"label": _("Attendance Status"),
@@ -85,14 +93,17 @@ def get_data(filters: dict[str, Any]) -> list[dict[str, Any]]:
 	filter_map = {
 		"shift": ("wa.shift", "shift"),
 		"contractor": ("emp.contractor", "contractor"),
-		"skill": ("emp.skill", "skill"),
-		"designation": ("emp.designation", "designation"),
 	}
 
 	for filter_key, (column, value_key) in filter_map.items():
 		if filters.get(filter_key):
 			conditions.append(f"{column} = %({value_key})s")
 			values[value_key] = filters[filter_key]
+
+	append_competency_filters(conditions, filters)
+
+	if filters.get("certified") not in (None, ""):
+		values["certified"] = int(filters.get("certified"))
 
 	rows = frappe.db.sql(
 		f"""
@@ -101,13 +112,15 @@ def get_data(filters: dict[str, Any]) -> list[dict[str, Any]]:
 			emp.employee_id,
 			emp.employee_name,
 			emp.contractor,
-			emp.designation,
-			emp.skill,
+			primary_comp.designation AS primary_designation,
+			primary_comp.skill AS primary_skill,
+			{competency_count_select("emp")},
 			wa.status AS attendance_status,
 			wa.shift,
 			wa.attendance_date
 		FROM `tabWorkforce Attendance` wa
 		INNER JOIN `tabWorkforce Employee` emp ON emp.name = wa.employee
+		{primary_competency_join("emp")}
 		LEFT JOIN `tabEmployee Assignment` ea
 			ON ea.employee = wa.employee
 			AND ea.assignment_date = wa.attendance_date
@@ -122,8 +135,11 @@ def get_data(filters: dict[str, Any]) -> list[dict[str, Any]]:
 	)
 
 	context = _build_reason_context(report_date, filters.get("shift"))
+	competency_map = CompetencyService.load_competencies_for_employees([row.employee for row in rows])
 	for row in rows:
-		row["reason"] = _get_unallocated_reason(row, context)
+		competencies = competency_map.get(row.employee, [])
+		row["competencies"] = competencies
+		row["reason"] = _get_unallocated_reason(row, context, competencies)
 
 	return rows
 
@@ -169,7 +185,11 @@ def _get_assigned_employees(report_date, shift: str | None) -> set[str]:
 	)
 
 
-def _get_unallocated_reason(row: dict[str, Any], context: dict[str, Any]) -> str:
+def _get_unallocated_reason(
+	row: dict[str, Any],
+	context: dict[str, Any],
+	competencies: list[dict[str, Any]],
+) -> str:
 	"""Determine why a present employee was not allocated."""
 	log_reason = _get_reason_from_decision_logs(row, context)
 	if log_reason:
@@ -183,7 +203,48 @@ def _get_unallocated_reason(row: dict[str, Any], context: dict[str, Any]) -> str
 
 
 def _get_reason_from_decision_logs(row: dict[str, Any], context: dict[str, Any]) -> str | None:
-	"""Read the most relevant reason from allocation decision logs."""
+	"""Read the most relevant reason from employee allocation evaluations."""
+	run_filters: dict[str, Any] = {"allocation_date": context["report_date"]}
+	if context.get("shift"):
+		run_filters["shift"] = context["shift"]
+
+	run_names = frappe.get_all(
+		"Allocation Run",
+		filters=run_filters,
+		pluck="name",
+		order_by="creation desc",
+	)
+	if not run_names:
+		return None
+
+	evaluations = frappe.get_all(
+		"Employee Allocation Evaluation",
+		filters={
+			"employee": row["employee"],
+			"allocation_run": ["in", run_names],
+		},
+		fields=["final_decision", "selection_reason", "evaluation_status"],
+		order_by="creation desc",
+	)
+	if not evaluations:
+		return _get_reason_from_legacy_decision_logs(row, context)
+
+	for evaluation in evaluations:
+		if evaluation.final_decision == "Allocated":
+			continue
+		if evaluation.final_decision == "Skipped":
+			return evaluation.selection_reason or _("Already Assigned")
+		reason = (evaluation.selection_reason or "").lower()
+		if "manpower limit" in reason or "no matching" in reason:
+			return _("No Requirement")
+		if evaluation.selection_reason:
+			return evaluation.selection_reason
+
+	return None
+
+
+def _get_reason_from_legacy_decision_logs(row: dict[str, Any], context: dict[str, Any]) -> str | None:
+	"""Fallback for allocation runs that still used Allocation Decision Log."""
 	run_filters: dict[str, Any] = {"allocation_date": context["report_date"]}
 	if context.get("shift"):
 		run_filters["shift"] = context["shift"]
@@ -233,8 +294,7 @@ def _get_reason_from_rule_evaluation(row: dict[str, Any], context: dict[str, Any
 	employee = {
 		"name": row["employee"],
 		"employee_name": row["employee_name"],
-		"designation": row["designation"],
-		"skill": row["skill"],
+		"competencies": competencies,
 		"status": frappe.db.get_value("Workforce Employee", row["employee"], "status"),
 	}
 	attendance = {
@@ -264,6 +324,7 @@ def _get_reason_from_rule_evaluation(row: dict[str, Any], context: dict[str, Any
 				"allocation_date": context["report_date"],
 				"assigned_employees": assigned_employees,
 			}
+			CompetencyService.enrich_rule_context(eval_context)
 			for rule in rules:
 				result = rule_engine._evaluate_rule(rule, eval_context)
 				if result["passed"]:
@@ -282,7 +343,9 @@ def _get_reason_from_rule_evaluation(row: dict[str, Any], context: dict[str, Any
 def _normalize_reason(rule_code: str | None, reason: str | None = None) -> str | None:
 	"""Map rule outcomes to report reason labels."""
 	reason_map = {
-		"skill_match": _("Skill Mismatch"),
+		"competency_match": _("Competency Mismatch"),
+		"skill_match": _("Competency Mismatch"),
+		"designation_match": _("Competency Mismatch"),
 		"shift_match": _("Shift Mismatch"),
 		"duplicate_assignment": _("Already Assigned"),
 		"employee_skip": _("Already Assigned"),

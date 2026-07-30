@@ -31,5 +31,10 @@ frappe.query_reports["Unallocated Employees"] = {
 			fieldtype: "Link",
 			options: "Workforce Designation",
 		},
+		{
+			fieldname: "certified",
+			label: __("Certified"),
+			fieldtype: "Check",
+		},
 	],
 };

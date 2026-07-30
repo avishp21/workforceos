@@ -49,6 +49,14 @@ class AllocationRun(Document):
 			"total_shortage",
 			"lines_processed",
 			"assignments_created",
+			"employees_evaluated",
+			"employees_allocated",
+			"employees_rejected",
+			"employees_skipped",
+			"certified_allocations",
+			"non_certified_allocations",
+			"production_lines_processed",
+			"total_workstations",
 		):
 			value = getattr(self, fieldname, None)
 			if value is not None and value < 0:

@@ -1,0 +1,225 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-07-30 15:00:00.000000",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "context_section",
+  "allocation_run",
+  "employee_assignment",
+  "assignment_date",
+  "shift",
+  "employee",
+  "employee_name",
+  "from_section",
+  "from_production_line",
+  "from_workstation",
+  "to_section",
+  "to_production_line",
+  "to_workstation",
+  "competency_section",
+  "matched_competency",
+  "reason_section",
+  "reason",
+  "comments",
+  "validation_section",
+  "validation_passed",
+  "validation_message",
+  "audit_section",
+  "reallocated_by",
+  "reallocated_on"
+ ],
+ "fields": [
+  {
+   "default": "ERL-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "ERL-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "context_section",
+   "fieldtype": "Section Break",
+   "label": "Context"
+  },
+  {
+   "fieldname": "allocation_run",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Allocation Run",
+   "options": "Allocation Run",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee_assignment",
+   "fieldtype": "Link",
+   "label": "Employee Assignment",
+   "options": "Employee Assignment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "assignment_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Assignment Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Link",
+   "label": "Shift",
+   "options": "Shift",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Workforce Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_section",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "from_production_line",
+   "fieldtype": "Link",
+   "label": "From Production Line",
+   "options": "Production Line",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_workstation",
+   "fieldtype": "Data",
+   "label": "From Workstation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_section",
+   "fieldtype": "Section Break",
+   "label": "To"
+  },
+  {
+   "fieldname": "to_production_line",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "To Production Line",
+   "options": "Production Line",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_workstation",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "To Workstation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "competency_section",
+   "fieldtype": "Section Break",
+   "label": "Competency"
+  },
+  {
+   "fieldname": "matched_competency",
+   "fieldtype": "Data",
+   "label": "Matched Competency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reason_section",
+   "fieldtype": "Section Break",
+   "label": "Reason"
+  },
+  {
+   "fieldname": "reason",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Reason",
+   "options": "Supervisor Request\nProduction Change\nCompetency Fit\nAbsence Cover\nOther",
+   "reqd": 1
+  },
+  {
+   "fieldname": "comments",
+   "fieldtype": "Small Text",
+   "label": "Comments"
+  },
+  {
+   "fieldname": "validation_section",
+   "fieldtype": "Section Break",
+   "label": "Validation"
+  },
+  {
+   "default": "0",
+   "fieldname": "validation_passed",
+   "fieldtype": "Check",
+   "label": "Validation Passed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "validation_message",
+   "fieldtype": "Small Text",
+   "label": "Validation Message",
+   "read_only": 1
+  },
+  {
+   "fieldname": "audit_section",
+   "fieldtype": "Section Break",
+   "label": "Audit"
+  },
+  {
+   "fieldname": "reallocated_by",
+   "fieldtype": "Link",
+   "label": "Reallocated By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reallocated_on",
+   "fieldtype": "Datetime",
+   "label": "Reallocated On",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-07-30 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Workforce",
+ "name": "Employee Reallocation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "allocation_run, employee, employee_name, to_production_line",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

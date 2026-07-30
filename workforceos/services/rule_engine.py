@@ -7,6 +7,8 @@ from typing import Any
 import frappe
 from frappe import _
 
+from workforceos.services.competency_service import CompetencyService
+
 RULE_CATEGORIES = ("Eligibility", "Preference", "Validation")
 
 
@@ -14,11 +16,7 @@ class RuleEngine:
 	"""Evaluates configurable business rules across workforce workflows."""
 
 	def load_enabled_rules(self) -> list[dict[str, Any]]:
-		"""Load enabled allocation rules ordered by priority.
-
-		Returns:
-			Active allocation rules sorted by ascending priority.
-		"""
+		"""Load enabled allocation rules ordered by priority."""
 		return frappe.get_all(
 			"Allocation Rule",
 			filters={"is_enabled": 1},
@@ -27,30 +25,14 @@ class RuleEngine:
 		)
 
 	def load_rules(self, rule_set: str | None = None, scope: str | None = None) -> list[dict[str, Any]]:
-		"""Load active rules for allocation.
-
-		Args:
-			rule_set: Unused placeholder for future rule sets.
-			scope: Optional rule category filter.
-
-		Returns:
-			A list of active rule definitions.
-		"""
+		"""Load active rules for allocation."""
 		rules = self.load_enabled_rules()
 		if scope:
 			return [rule for rule in rules if rule.rule_category == scope]
 		return rules
 
 	def evaluate_rules(self, context: dict[str, Any], scope: str) -> dict[str, Any]:
-		"""Evaluate all applicable rules for a given context.
-
-		Args:
-			context: Evaluation context including entities and parameters.
-			scope: Rule category to evaluate.
-
-		Returns:
-			Rule evaluation results including pass/fail outcomes.
-		"""
+		"""Evaluate all applicable rules for a given context."""
 		results = []
 		for rule in self.load_rules(scope=scope):
 			outcome = self._evaluate_rule(rule, context)
@@ -89,15 +71,6 @@ class RuleEngine:
 		"""Return whether a candidate passes a validation rule."""
 		result = self._evaluate_rule(rule, context)
 		return result["passed"]
-
-	def get_preference_score(self, rule: dict[str, Any], context: dict[str, Any]) -> int:
-		"""Return preference score contribution for a candidate."""
-		result = self._evaluate_rule(rule, context)
-		return result.get("score", 0) if result["passed"] else 0
-
-	def score_candidate(self, preference_rules: list[dict[str, Any]], context: dict[str, Any]) -> int:
-		"""Calculate total preference score for a candidate."""
-		return sum(self.get_preference_score(rule, context) for rule in preference_rules)
 
 	def _evaluate_rule(self, rule: dict[str, Any], context: dict[str, Any]) -> dict[str, Any]:
 		"""Evaluate a single rule against the provided context."""
@@ -146,38 +119,23 @@ def _shift_match(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, i
 	return passed, 0, _("Shift mismatch") if not passed else ""
 
 
-def _designation_match(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
+def _competency_match(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
 	employee = context.get("employee") or {}
 	requirement = context.get("requirement") or {}
-	if not requirement.get("designation"):
+	designation, skill = CompetencyService.get_requirement_fields(requirement)
+
+	if not designation and not skill:
 		return True, 0, ""
-	passed = employee.get("designation") == requirement.get("designation")
-	if passed:
+
+	if CompetencyService.has_competency_match(employee, requirement):
 		return True, 0, ""
+
 	return (
 		False,
 		0,
-		_("Employee designation is {0}\nRequired designation is {1}").format(
-			employee.get("designation") or _("Not set"),
-			requirement.get("designation"),
-		),
-	)
-
-
-def _skill_match(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
-	employee = context.get("employee") or {}
-	requirement = context.get("requirement") or {}
-	if not requirement.get("skill"):
-		return True, 0, ""
-	passed = employee.get("skill") == requirement.get("skill")
-	if passed:
-		return True, 0, ""
-	return (
-		False,
-		0,
-		_("Employee skill is {0}\nRequired skill is {1}").format(
-			employee.get("skill") or _("Not set"),
-			requirement.get("skill"),
+		_("Employee does not possess competency for Designation {0} and Skill {1}").format(
+			designation or _("Not set"),
+			skill or _("Not set"),
 		),
 	)
 
@@ -189,20 +147,10 @@ def _duplicate_assignment(context: dict[str, Any], rule: dict[str, Any]) -> tupl
 	return passed, 0, _("Already Assigned") if not passed else ""
 
 
-def _prefer_default_line(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
-	employee = context.get("employee") or {}
-	production_line = context.get("production_line")
-	if employee.get("default_line") == production_line:
-		return True, rule.get("score") or 0, ""
-	return True, 0, ""
-
-
 RULE_EVALUATORS = {
 	"employee_active": _employee_active,
 	"attendance_present": _attendance_present,
 	"shift_match": _shift_match,
-	"designation_match": _designation_match,
-	"skill_match": _skill_match,
+	"competency_match": _competency_match,
 	"duplicate_assignment": _duplicate_assignment,
-	"prefer_default_line": _prefer_default_line,
 }

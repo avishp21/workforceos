@@ -12,8 +12,10 @@
   "employee_id",
   "employee_name",
   "contractor",
+  "competencies_section",
+  "competencies",
+  "legacy_section",
   "designation",
-  "skills_section",
   "skill",
   "organization_section",
   "default_line",
@@ -55,25 +57,40 @@
    "options": "Contractor"
   },
   {
+   "fieldname": "competencies_section",
+   "fieldtype": "Section Break",
+   "label": "Competency Matrix"
+  },
+  {
+   "fieldname": "competencies",
+   "fieldtype": "Table",
+   "label": "Competencies",
+   "options": "Employee Competency",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "legacy_section",
+   "fieldtype": "Section Break",
+   "label": "Legacy Fields"
+  },
+  {
+   "description": "Deprecated. Use the Competencies table. Retained for migration only.",
    "fieldname": "designation",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
+   "hidden": 1,
    "label": "Designation",
-   "options": "Workforce Designation"
+   "options": "Workforce Designation",
+   "read_only": 1
   },
   {
-   "fieldname": "skills_section",
-   "fieldtype": "Section Break",
-   "label": "Skills"
-  },
-  {
+   "description": "Deprecated. Use the Competencies table. Retained for migration only.",
    "fieldname": "skill",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
+   "hidden": 1,
    "label": "Skill",
-   "options": "Skill"
+   "options": "Skill",
+   "read_only": 1
   },
   {
    "fieldname": "organization_section",
@@ -126,7 +143,7 @@
   }
  ],
  "links": [],
- "modified": "2026-07-15 12:41:00.000000",
+ "modified": "2026-07-30 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Workforce",
  "name": "Workforce Employee",
@@ -147,7 +164,7 @@
    "write": 1
   }
  ],
- "search_fields": "employee_id, employee_name, contractor, designation",
+ "search_fields": "employee_id, employee_name, contractor",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

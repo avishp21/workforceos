@@ -14,18 +14,32 @@
   "shift",
   "status_section",
   "status",
-  "summary_section",
+  "allocation_summary_section",
+  "employees_evaluated",
+  "employees_allocated",
+  "employees_rejected",
+  "employees_skipped",
+  "column_break_allocation_summary",
+  "total_shortage",
+  "allocation_success_percent",
+  "execution_time_seconds",
+  "production_summary_section",
+  "production_lines_processed",
+  "total_workstations",
+  "column_break_production_summary",
   "total_required",
   "total_allocated",
-  "column_break_summary",
-  "total_shortage",
-  "lines_processed",
+  "competency_summary_section",
+  "certified_allocations",
+  "non_certified_allocations",
+  "most_used_competency",
+  "rule_failure_summary_section",
+  "rule_failure_summary",
+  "technical_section",
   "assignments_created",
-  "execution_section",
+  "lines_processed",
   "started_on",
   "completed_on",
-  "column_break_execution",
-  "execution_time_seconds",
   "logs_section",
   "error_log",
   "remarks_section",
@@ -86,28 +100,45 @@
    "reqd": 1
   },
   {
-   "fieldname": "summary_section",
+   "collapsible": 1,
+   "fieldname": "allocation_summary_section",
    "fieldtype": "Section Break",
-   "label": "Summary"
+   "label": "Allocation Summary"
   },
   {
    "default": "0",
-   "fieldname": "total_required",
+   "fieldname": "employees_evaluated",
    "fieldtype": "Int",
-   "label": "Total Required",
+   "label": "Employees Evaluated",
    "non_negative": 1,
    "read_only": 1
   },
   {
    "default": "0",
-   "fieldname": "total_allocated",
+   "fieldname": "employees_allocated",
    "fieldtype": "Int",
-   "label": "Total Allocated",
+   "label": "Employees Allocated",
    "non_negative": 1,
    "read_only": 1
   },
   {
-   "fieldname": "column_break_summary",
+   "default": "0",
+   "fieldname": "employees_rejected",
+   "fieldtype": "Int",
+   "label": "Employees Rejected",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "employees_skipped",
+   "fieldtype": "Int",
+   "label": "Employees Skipped",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_allocation_summary",
    "fieldtype": "Column Break"
   },
   {
@@ -120,52 +151,144 @@
    "read_only": 1
   },
   {
+   "fieldname": "allocation_success_percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Allocation Success %",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "execution_time_seconds",
+   "fieldtype": "Float",
+   "label": "Run Duration (Seconds)",
+   "non_negative": 1,
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "production_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Production Summary"
+  },
+  {
    "default": "0",
-   "fieldname": "lines_processed",
+   "fieldname": "production_lines_processed",
    "fieldtype": "Int",
-   "label": "Lines Processed",
+   "label": "Production Lines Processed",
    "non_negative": 1,
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_workstations",
+   "fieldtype": "Int",
+   "label": "Total Workstations",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_production_summary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_required",
+   "fieldtype": "Int",
+   "label": "Total Required Employees",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_allocated",
+   "fieldtype": "Int",
+   "label": "Total Assigned Employees",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "competency_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Competency Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "certified_allocations",
+   "fieldtype": "Int",
+   "label": "Certified Allocations",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "non_certified_allocations",
+   "fieldtype": "Int",
+   "label": "Non-Certified Allocations",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "most_used_competency",
+   "fieldtype": "Data",
+   "label": "Most Used Competency",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "rule_failure_summary_section",
+   "fieldtype": "Section Break",
+   "label": "Rule Failure Summary"
+  },
+  {
+   "fieldname": "rule_failure_summary",
+   "fieldtype": "Small Text",
+   "label": "Top Rule Failures",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "technical_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Technical Details"
   },
   {
    "default": "0",
    "fieldname": "assignments_created",
    "fieldtype": "Int",
-   "in_list_view": 1,
+   "hidden": 1,
    "label": "Assignments Created",
    "non_negative": 1,
    "read_only": 1
   },
   {
-   "fieldname": "execution_section",
-   "fieldtype": "Section Break",
-   "label": "Execution"
+   "default": "0",
+   "fieldname": "lines_processed",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Lines Processed",
+   "non_negative": 1,
+   "read_only": 1
   },
   {
    "fieldname": "started_on",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": "Started On",
    "read_only": 1
   },
   {
    "fieldname": "completed_on",
    "fieldtype": "Datetime",
+   "hidden": 1,
    "label": "Completed On",
    "read_only": 1
   },
   {
-   "fieldname": "column_break_execution",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "execution_time_seconds",
-   "fieldtype": "Float",
-   "label": "Execution Time (Seconds)",
-   "non_negative": 1,
-   "precision": "2",
-   "read_only": 1
-  },
-  {
+   "collapsible": 1,
    "fieldname": "logs_section",
    "fieldtype": "Section Break",
    "label": "Logs"
@@ -187,8 +310,24 @@
    "label": "Remarks"
   }
  ],
- "links": [],
- "modified": "2026-07-15 00:00:00.000000",
+ "links": [
+  {
+   "group": "Operations",
+   "link_doctype": "Employee Assignment",
+   "link_fieldname": "allocation_run"
+  },
+  {
+   "group": "Evaluations",
+   "link_doctype": "Employee Allocation Evaluation",
+   "link_fieldname": "allocation_run"
+  },
+  {
+   "group": "History",
+   "link_doctype": "Employee Reallocation",
+   "link_fieldname": "allocation_run"
+  }
+ ],
+ "modified": "2026-07-30 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "Workforce",
  "name": "Allocation Run",

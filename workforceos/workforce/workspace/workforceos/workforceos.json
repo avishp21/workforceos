@@ -1,8 +1,7 @@
 {
- "app": "workforceos",
  "charts": [],
  "content": "[{\"id\": \"wos_hdr_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"wos_sc_console\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Allocation Console\", \"col\": 3}}, {\"id\": \"wos_sc_demo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Generate Demo Data\", \"col\": 3}}, {\"id\": \"wos_sc_assignment\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Assignment\", \"col\": 3}}, {\"id\": \"wos_sc_attendance\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Attendance\", \"col\": 3}}, {\"id\": \"wos_sc_daily_line_plan\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Daily Line Plan\", \"col\": 3}}, {\"id\": \"wos_sc_employee\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Employee\", \"col\": 3}}, {\"id\": \"wos_sc_contractor\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Contractor\", \"col\": 3}}, {\"id\": \"wos_sc_production_line\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Production Line\", \"col\": 3}}, {\"id\": \"wos_sc_shift\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Shift\", \"col\": 3}}, {\"id\": \"wos_spacer_1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"wos_card_masters\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters\", \"col\": 4}}, {\"id\": \"wos_card_planning\", \"type\": \"card\", \"data\": {\"card_name\": \"Planning\", \"col\": 4}}, {\"id\": \"wos_card_attendance\", \"type\": \"card\", \"data\": {\"card_name\": \"Attendance\", \"col\": 4}}, {\"id\": \"wos_card_allocation\", \"type\": \"card\", \"data\": {\"card_name\": \"Allocation\", \"col\": 4}}, {\"id\": \"wos_card_reports\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"wos_card_logs\", \"type\": \"card\", \"data\": {\"card_name\": \"Logs\", \"col\": 4}}, {\"id\": \"wos_card_utilities\", \"type\": \"card\", \"data\": {\"card_name\": \"Utilities\", \"col\": 4}}]",
- "creation": "2026-07-14 00:00:00.000000",
+ "creation": "2026-07-30 10:46:15.018018",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -10,6 +9,7 @@
  "hide_custom": 0,
  "icon": "organization",
  "idx": 0,
+ "indicator_color": "green",
  "is_hidden": 0,
  "label": "WorkforceOS",
  "links": [
@@ -132,7 +132,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Allocation",
-   "link_count": 3,
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -167,6 +167,17 @@
    "link_count": 0,
    "link_to": "Allocation Run",
    "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Current Allocations",
+   "link_count": 0,
+   "link_to": "current-allocations",
+   "link_type": "Page",
    "onboard": 1,
    "type": "Link"
   },
@@ -227,7 +238,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Logs",
-   "link_count": 1,
+   "link_count": 2,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -236,7 +247,18 @@
    "dependencies": "",
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Decision Log",
+   "label": "Employee Allocation Evaluation",
+   "link_count": 0,
+   "link_to": "Employee Allocation Evaluation",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Allocation Decision Log",
    "link_count": 0,
    "link_to": "Allocation Decision Log",
    "link_type": "DocType",
@@ -275,7 +297,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-15 16:40:00.000000",
+ "modified": "2026-07-30 10:46:15.018018",
  "modified_by": "Administrator",
  "module": "Workforce",
  "name": "WorkforceOS",
@@ -290,12 +312,14 @@
  "shortcuts": [
   {
    "color": "Red",
+   "doc_view": "",
    "label": "Allocation Console",
    "link_to": "allocation-console",
    "type": "Page"
   },
   {
    "color": "Grey",
+   "doc_view": "",
    "label": "Generate Demo Data",
    "link_to": "generate-demo-data",
    "type": "Page"
@@ -356,6 +380,5 @@
    "type": "DocType"
   }
  ],
- "title": "WorkforceOS",
- "type": "Workspace"
+ "title": "WorkforceOS"
 }
