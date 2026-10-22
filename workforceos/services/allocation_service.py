@@ -403,6 +403,9 @@ class AllocationService:
 		if self._has_existing_assignment(employee_name, allocation_date, shift):
 			return _("Already Assigned")
 
+		if employee.get("status") == "Suspended":
+			return _("Suspended Employee")
+
 		if employee.get("status") != "Active":
 			return _("Inactive Employee")
 
@@ -621,7 +624,7 @@ class AllocationService:
 			"skill_match": _("Competency mismatch"),
 			"designation_match": _("Competency mismatch"),
 			"duplicate_assignment": _("Already Assigned"),
-			"employee_active": _("Inactive"),
+			"employee_active": message or _("Inactive"),
 			"attendance_present": _("Not Present"),
 			"shift_match": _("Shift mismatch"),
 			"demo_block_inactive": _("Inactive"),

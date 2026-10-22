@@ -11,15 +11,20 @@ app_license = "mit"
 # required_apps = []
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "workforceos",
-# 		"logo": "/assets/workforceos/logo.png",
-# 		"title": "WorkforceOS",
-# 		"route": "/workforceos",
-# 		"has_permission": "workforceos.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "workforceos",
+		"logo": "/assets/frappe/images/frappe-framework-logo.svg",
+		"title": "WorkforceOS",
+		"route": "/app/workforceos",
+	}
+]
+
+# There is no Home workspace on this site. Desk links and stale
+# login redirects still request /app/home, which 404s.
+website_redirects = [
+	{"source": "/app/home", "target": "/app/workforceos", "redirect_http_status": 302},
+]
 
 # Includes in <head>
 # ------------------

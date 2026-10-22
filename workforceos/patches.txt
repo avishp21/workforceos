@@ -14,3 +14,5 @@ workforceos.workforce.patches.enable_prefer_certified_competency_rule
 workforceos.workforce.patches.delete_unused_allocation_rules
 workforceos.workforce.patches.hide_operations_workspace
 workforceos.workforce.patches.sync_workforceos_workspace
+workforceos.workforce.patches.set_default_workspace
+workforceos.workforce.patches.backfill_employee_master_fields

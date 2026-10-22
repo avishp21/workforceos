@@ -19,6 +19,7 @@ DEMO_RULE_PREFIX = "demo_"
 GENERATABLE_ENTITIES = [
 	"contractors",
 	"designations",
+	"departments",
 	"skills",
 	"production_lines",
 	"shifts",
@@ -38,6 +39,7 @@ CLEARABLE_ENTITIES = [
 	"allocation_rules",
 	"skills",
 	"designations",
+	"departments",
 	"shifts",
 	"production_lines",
 	"contractors",
@@ -46,6 +48,7 @@ CLEARABLE_ENTITIES = [
 ENTITY_LABELS = {
 	"contractors": "Contractors",
 	"designations": "Workforce Designations",
+	"departments": "Workforce Departments",
 	"skills": "Skills",
 	"production_lines": "Production Lines",
 	"shifts": "Shifts",
@@ -99,6 +102,14 @@ DESIGNATION_NAMES = [
 	"Quality Inspector",
 	"Line Helper",
 	"Shift Supervisor",
+]
+
+DEPARTMENT_NAMES = [
+	"Production",
+	"Assembly",
+	"Quality",
+	"Maintenance",
+	"Logistics",
 ]
 
 FIRST_NAMES = [
@@ -186,6 +197,10 @@ def generate_demo_data(entities: list[str] | str | None = None) -> dict[str, Any
 		created["designations"] = _create_designations()
 		summary["designations"] = len(created["designations"])
 
+	if "departments" in selected:
+		created["departments"] = _create_departments()
+		summary["departments"] = len(created["departments"])
+
 	if "skills" in selected:
 		created["skills"] = _create_skills()
 		summary["skills"] = len(created["skills"])
@@ -201,6 +216,7 @@ def generate_demo_data(entities: list[str] | str | None = None) -> dict[str, Any
 	if "employees" in selected:
 		contractors = created.get("contractors") or _get_existing_demo_contractors()
 		designations = created.get("designations") or _get_existing_designations()
+		departments = created.get("departments") or _get_existing_departments()
 		skills = created.get("skills") or _get_existing_skills()
 		lines = created.get("production_lines") or _get_existing_demo_lines()
 		shifts = created.get("shifts") or _get_existing_shifts()
@@ -208,13 +224,16 @@ def generate_demo_data(entities: list[str] | str | None = None) -> dict[str, Any
 			{
 				"Contractors": contractors,
 				"Workforce Designations": designations,
+				"Workforce Departments": departments,
 				"Skills": skills,
 				"Production Lines": lines,
 				"Shifts": shifts,
 			},
 			target=_("Workforce Employees"),
 		)
-		created["employees"] = _create_employees(contractors, designations, skills, lines, shifts)
+		created["employees"] = _create_employees(
+			contractors, designations, departments, skills, lines, shifts
+		)
 		summary["employees"] = len(created["employees"])
 
 	if "attendance" in selected:
@@ -265,6 +284,7 @@ def clear_demo_data(entities: list[str] | str | None = None) -> dict[str, int]:
 		"allocation_rules": _delete_demo_allocation_rules,
 		"skills": _delete_demo_skills,
 		"designations": _delete_demo_designations,
+		"departments": _delete_demo_departments,
 		"shifts": _delete_demo_shifts,
 		"production_lines": _delete_demo_production_lines,
 		"contractors": _delete_demo_contractors,
@@ -317,6 +337,10 @@ def _get_existing_demo_contractors() -> list[str]:
 
 def _get_existing_designations() -> list[str]:
 	return frappe.get_all("Workforce Designation", pluck="name")
+
+
+def _get_existing_departments() -> list[str]:
+	return frappe.get_all("Workforce Department", pluck="name")
 
 
 def _get_existing_skills() -> list[str]:
@@ -384,6 +408,19 @@ def _create_designations() -> list[str]:
 	return names
 
 
+def _create_departments() -> list[str]:
+	names = []
+	for department_name in DEPARTMENT_NAMES:
+		name = _insert_if_missing(
+			"Workforce Department",
+			{"department_name": department_name},
+			{"department_name": department_name},
+		)
+		if name:
+			names.append(name)
+	return names
+
+
 def _create_skills() -> list[str]:
 	names = []
 	for skill_name, skill_level in SKILL_DEFINITIONS:
@@ -434,6 +471,7 @@ def _create_shifts() -> list[str]:
 def _create_employees(
 	contractors: list[str],
 	designations: list[str],
+	departments: list[str],
 	skills: list[str],
 	lines: list[str],
 	shifts: list[str],
@@ -443,12 +481,15 @@ def _create_employees(
 
 	for index in range(1, 101):
 		employee_id = f"{DEMO_PREFIX}-EMP-{index:03d}"
-		if frappe.db.exists("Workforce Employee", {"employee_id": employee_id}):
-			names.append(employee_id)
+		existing_name = frappe.db.get_value("Workforce Employee", {"employee_id": employee_id}, "name")
+		if existing_name:
+			names.append(existing_name)
 			continue
 
 		while True:
-			employee_name = f"{random.choice(FIRST_NAMES)} {random.choice(LAST_NAMES)}"
+			first_name = random.choice(FIRST_NAMES)
+			last_name = random.choice(LAST_NAMES)
+			employee_name = f"{first_name} {last_name}"
 			if employee_name not in used_full_names:
 				used_full_names.add(employee_name)
 				break
@@ -479,7 +520,10 @@ def _create_employees(
 			{
 				"doctype": "Workforce Employee",
 				"employee_id": employee_id,
+				"first_name": first_name,
+				"last_name": last_name,
 				"employee_name": employee_name,
+				"department": random.choice(departments),
 				"contractor": random.choice(contractors),
 				"designation": designation,
 				"skill": skill,
@@ -709,6 +753,16 @@ def _delete_demo_skills() -> int:
 		if _is_demo_only_master_reference("Workforce Employee", "skill", skill):
 			names.append(skill)
 	return _delete_docs("Skill", names)
+
+
+def _delete_demo_departments() -> int:
+	names = []
+	for department in DEPARTMENT_NAMES:
+		if not frappe.db.exists("Workforce Department", department):
+			continue
+		if _is_demo_only_master_reference("Workforce Employee", "department", department):
+			names.append(department)
+	return _delete_docs("Workforce Department", names)
 
 
 def _delete_demo_designations() -> int:

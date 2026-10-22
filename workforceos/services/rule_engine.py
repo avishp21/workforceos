@@ -100,8 +100,12 @@ class RuleEngine:
 
 def _employee_active(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
 	employee = context.get("employee") or {}
-	passed = employee.get("status") == "Active"
-	return passed, 0, _("Inactive Employee") if not passed else ""
+	status = employee.get("status")
+	if status == "Active":
+		return True, 0, ""
+	if status == "Suspended":
+		return False, 0, _("Suspended Employee")
+	return False, 0, _("Inactive Employee")
 
 
 def _attendance_present(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:

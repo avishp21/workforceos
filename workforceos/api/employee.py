@@ -7,6 +7,7 @@ import frappe
 from frappe import _
 
 from workforceos.services.competency_service import CompetencyService
+from workforceos.workforce.doctype.workforce_employee.workforce_employee import WorkforceEmployee
 
 
 @frappe.whitelist()
@@ -53,3 +54,9 @@ def get_employees(
 		results.append(payload)
 
 	return results
+
+
+@frappe.whitelist()
+def sync_matrix_hr_employee(data: str | dict) -> str:
+	"""Create or update a Workforce Employee from a Matrix HR payload."""
+	return WorkforceEmployee.sync_from_matrix_hr(data)

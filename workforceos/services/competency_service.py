@@ -226,8 +226,14 @@ class CompetencyService:
 
 		return {
 			"employee": employee_doc.name,
+			"employee_code": employee_doc.employee_code,
 			"employee_id": employee_doc.employee_id,
 			"employee_name": employee_doc.employee_name,
+			"first_name": employee_doc.first_name,
+			"last_name": employee_doc.last_name,
+			"status": employee_doc.status,
+			"department": employee_doc.department,
+			"designation": employee_doc.designation,
 			"primary_competency": primary,
 			"competencies": competencies,
 			"total_competencies": len(competencies),
