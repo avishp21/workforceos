@@ -1,7 +1,7 @@
 {
  "charts": [],
- "content": "[{\"id\": \"wos_hdr_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"wos_sc_console\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Allocation Console\", \"col\": 3}}, {\"id\": \"wos_sc_demo\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Generate Demo Data\", \"col\": 3}}, {\"id\": \"wos_sc_assignment\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Employee Assignment\", \"col\": 3}}, {\"id\": \"wos_sc_attendance\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Attendance\", \"col\": 3}}, {\"id\": \"wos_sc_daily_line_plan\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Daily Line Plan\", \"col\": 3}}, {\"id\": \"wos_sc_employee\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Workforce Employee\", \"col\": 3}}, {\"id\": \"wos_sc_contractor\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Contractor\", \"col\": 3}}, {\"id\": \"wos_sc_production_line\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Production Line\", \"col\": 3}}, {\"id\": \"wos_sc_shift\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Shift\", \"col\": 3}}, {\"id\": \"wos_spacer_1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"wos_card_masters\", \"type\": \"card\", \"data\": {\"card_name\": \"Masters\", \"col\": 4}}, {\"id\": \"wos_card_planning\", \"type\": \"card\", \"data\": {\"card_name\": \"Planning\", \"col\": 4}}, {\"id\": \"wos_card_attendance\", \"type\": \"card\", \"data\": {\"card_name\": \"Attendance\", \"col\": 4}}, {\"id\": \"wos_card_allocation\", \"type\": \"card\", \"data\": {\"card_name\": \"Allocation\", \"col\": 4}}, {\"id\": \"wos_card_reports\", \"type\": \"card\", \"data\": {\"card_name\": \"Reports\", \"col\": 4}}, {\"id\": \"wos_card_logs\", \"type\": \"card\", \"data\": {\"card_name\": \"Logs\", \"col\": 4}}, {\"id\": \"wos_card_utilities\", \"type\": \"card\", \"data\": {\"card_name\": \"Utilities\", \"col\": 4}}]",
- "creation": "2026-07-30 12:44:16.856998",
+ "content": "[{\"id\":\"wos_hdr_shortcuts\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Your Shortcuts</b></span>\",\"col\":12}},{\"id\":\"wos_sc_console\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Allocation Console\",\"col\":3}},{\"id\":\"wos_sc_demo\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Generate Demo Data\",\"col\":3}},{\"id\":\"wos_sc_assignment\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Employee Assignment\",\"col\":3}},{\"id\":\"wos_sc_attendance\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workforce Attendance\",\"col\":3}},{\"id\":\"wos_sc_daily_line_plan\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Daily Line Plan\",\"col\":3}},{\"id\":\"wos_sc_employee\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Workforce Employee\",\"col\":3}},{\"id\":\"wos_sc_contractor\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Contractor\",\"col\":3}},{\"id\":\"wos_sc_production_line\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Production Line\",\"col\":3}},{\"id\":\"wos_sc_shift\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Shift\",\"col\":3}},{\"id\":\"wos_spacer_1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"wos_card_attendance\",\"type\":\"card\",\"data\":{\"card_name\":\"Attendance\",\"col\":4}},{\"id\":\"wos_card_allocation\",\"type\":\"card\",\"data\":{\"card_name\":\"Allocation\",\"col\":4}},{\"id\":\"wos_card_reports\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"wos_card_logs\",\"type\":\"card\",\"data\":{\"card_name\":\"Logs\",\"col\":4}},{\"id\":\"wos_card_utilities\",\"type\":\"card\",\"data\":{\"card_name\":\"Utilities\",\"col\":4}}]",
+ "creation": "2026-11-25 14:52:29.729507",
  "custom_blocks": [],
  "docstatus": 0,
  "doctype": "Workspace",
@@ -13,145 +13,6 @@
  "is_hidden": 0,
  "label": "WorkforceOS",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Masters",
-   "link_count": 9,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Workforce Employee",
-   "link_count": 0,
-   "link_to": "Workforce Employee",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Contractor",
-   "link_count": 0,
-   "link_to": "Contractor",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Customer",
-   "link_count": 0,
-   "link_to": "Customer",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Skill",
-   "link_count": 0,
-   "link_to": "Skill",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Workforce Designation",
-   "link_count": 0,
-   "link_to": "Workforce Designation",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Workforce Department",
-   "link_count": 0,
-   "link_to": "Workforce Department",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Production Line",
-   "link_count": 0,
-   "link_to": "Production Line",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Workstation",
-   "link_count": 0,
-   "link_to": "Workstation",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Shift",
-   "link_count": 0,
-   "link_to": "Shift",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Planning",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Daily Production Plan",
-   "link_count": 0,
-   "link_to": "Daily Production Plan",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Daily Line Plan",
-   "link_count": 0,
-   "link_to": "Daily Line Plan",
-   "link_type": "DocType",
-   "onboard": 1,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -341,8 +202,8 @@
    "type": "Link"
   }
  ],
- "modified": "2026-07-30 12:44:16.856998",
- "modified_by": "Administrator",
+ "modified": "2026-11-25 15:26:11.299955",
+ "modified_by": "avish.puri21@gmail.com",
  "module": "Workforce",
  "name": "WorkforceOS",
  "number_cards": [],
@@ -409,26 +270,10 @@
    "type": "DocType"
   },
   {
-   "color": "Yellow",
-   "doc_view": "List",
-   "label": "Customer",
-   "link_to": "Customer",
-   "stats_filter": "{\"is_active\":[\"=\",1]}",
-   "type": "DocType"
-  },
-  {
    "color": "Green",
    "doc_view": "List",
    "label": "Production Line",
    "link_to": "Production Line",
-   "stats_filter": "{\"is_active\":[\"=\",1]}",
-   "type": "DocType"
-  },
-  {
-   "color": "Gray",
-   "doc_view": "List",
-   "label": "Workstation",
-   "link_to": "Workstation",
    "stats_filter": "{\"is_active\":[\"=\",1]}",
    "type": "DocType"
   },
