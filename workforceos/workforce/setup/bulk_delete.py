@@ -25,7 +25,9 @@ BULK_DELETE_DOCTYPES = [
 	"Skill",
 	"Workforce Designation",
 	"Shift",
+	"Workstation",
 	"Production Line",
+	"Customer",
 	"Contractor",
 ]
 

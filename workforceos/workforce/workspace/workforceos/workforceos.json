@@ -17,7 +17,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Masters",
-   "link_count": 7,
+   "link_count": 9,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -40,6 +40,17 @@
    "label": "Contractor",
    "link_count": 0,
    "link_to": "Contractor",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Customer",
+   "link_count": 0,
+   "link_to": "Customer",
    "link_type": "DocType",
    "onboard": 1,
    "type": "Link"
@@ -84,6 +95,17 @@
    "label": "Production Line",
    "link_count": 0,
    "link_to": "Production Line",
+   "link_type": "DocType",
+   "onboard": 1,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Workstation",
+   "link_count": 0,
+   "link_to": "Workstation",
    "link_type": "DocType",
    "onboard": 1,
    "type": "Link"
@@ -387,10 +409,26 @@
    "type": "DocType"
   },
   {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Customer",
+   "link_to": "Customer",
+   "stats_filter": "{\"is_active\":[\"=\",1]}",
+   "type": "DocType"
+  },
+  {
    "color": "Green",
    "doc_view": "List",
    "label": "Production Line",
    "link_to": "Production Line",
+   "stats_filter": "{\"is_active\":[\"=\",1]}",
+   "type": "DocType"
+  },
+  {
+   "color": "Gray",
+   "doc_view": "List",
+   "label": "Workstation",
+   "link_to": "Workstation",
    "stats_filter": "{\"is_active\":[\"=\",1]}",
    "type": "DocType"
   },

@@ -10,7 +10,9 @@
  "field_order": [
   "line_name",
   "line_code",
-  "is_active"
+  "is_active",
+  "customers_section",
+  "customers"
  ],
  "fields": [
   {
@@ -37,9 +39,26 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Is Active"
+  },
+  {
+   "fieldname": "customers_section",
+   "fieldtype": "Section Break",
+   "label": "Customers"
+  },
+  {
+   "description": "A line can serve one or more customers. The same customer can also be mapped on other lines.",
+   "fieldname": "customers",
+   "fieldtype": "Table",
+   "label": "Customers",
+   "options": "Production Line Customer"
   }
  ],
- "links": [],
+ "links": [
+  {
+   "link_doctype": "Workstation",
+   "link_fieldname": "production_line"
+  }
+ ],
  "modified": "2026-07-14 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "Workforce",
