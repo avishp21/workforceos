@@ -261,7 +261,6 @@ class AllocationService:
 			"Workforce Attendance",
 			filters={
 				"attendance_date": allocation_date,
-				"shift": shift,
 				"is_allocated": 0,
 			},
 			fields=["name", "employee", "status", "shift", "is_allocated"],

@@ -11,6 +11,7 @@
   "naming_series",
   "basic_information_section",
   "employee",
+  "shift_key",
   "attendance_date",
   "shift",
   "punch_details_section",
@@ -50,6 +51,16 @@
    "reqd": 1
   },
   {
+   "description": "Middleware pairing key {UserID}-{IN IndexNo}. The same value is sent on IN and OUT so an overnight checkout updates the original check-in.",
+   "fieldname": "shift_key",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Shift Key",
+   "set_only_once": 1,
+   "unique": 1
+  },
+  {
    "fieldname": "attendance_date",
    "fieldtype": "Date",
    "in_list_view": 1,
@@ -63,8 +74,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Shift",
-   "options": "Shift",
-   "reqd": 1
+   "options": "Shift"
   },
   {
    "fieldname": "punch_details_section",
@@ -74,6 +84,7 @@
   {
    "fieldname": "in_time",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "In Time"
   },
   {
@@ -83,6 +94,7 @@
   {
    "fieldname": "out_time",
    "fieldtype": "Datetime",
+   "in_list_view": 1,
    "label": "Out Time"
   },
   {
@@ -152,7 +164,7 @@
    "write": 1
   }
  ],
- "search_fields": "employee, attendance_date, shift, status, allocated_line",
+ "search_fields": "employee, shift_key, attendance_date, shift, status, allocated_line",
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

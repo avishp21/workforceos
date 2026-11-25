@@ -119,7 +119,10 @@ def _attendance_present(context: dict[str, Any], rule: dict[str, Any]) -> tuple[
 def _shift_match(context: dict[str, Any], rule: dict[str, Any]) -> tuple[bool, int, str]:
 	attendance = context.get("attendance") or {}
 	shift = context.get("shift")
-	passed = attendance.get("shift") == shift
+	attendance_shift = attendance.get("shift")
+	if not attendance_shift:
+		return True, 0, ""
+	passed = attendance_shift == shift
 	return passed, 0, _("Shift mismatch") if not passed else ""
 
 

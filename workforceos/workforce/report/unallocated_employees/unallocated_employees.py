@@ -124,7 +124,7 @@ def get_data(filters: dict[str, Any]) -> list[dict[str, Any]]:
 		LEFT JOIN `tabEmployee Assignment` ea
 			ON ea.employee = wa.employee
 			AND ea.assignment_date = wa.attendance_date
-			AND ea.shift = wa.shift
+			AND (IFNULL(wa.shift, '') = '' OR ea.shift = wa.shift)
 			AND ea.docstatus < 2
 			AND ea.assignment_status != 'Cancelled'
 		WHERE {" AND ".join(conditions)}

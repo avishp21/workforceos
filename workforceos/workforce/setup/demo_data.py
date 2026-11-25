@@ -559,7 +559,6 @@ def _create_attendance(employees: list[str], shifts: list[str]) -> int:
 				{
 					"employee": employee,
 					"attendance_date": attendance_date,
-					"shift": shift,
 				},
 			):
 				continue

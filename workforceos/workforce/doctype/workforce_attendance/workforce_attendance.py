@@ -14,28 +14,57 @@ class WorkforceAttendance(Document):
 
 	def validate(self) -> None:
 		"""Validate attendance fields before save."""
+		self.normalize_shift_key()
+		self.validate_shift_key()
 		self.validate_duplicate_attendance()
 		self.validate_status()
 		self.validate_punch_times()
 		self.validate_allocation()
 
-	def validate_duplicate_attendance(self) -> None:
-		"""Prevent duplicate attendance for the same employee, date, and shift."""
-		if not (self.employee and self.attendance_date and self.shift):
+	def normalize_shift_key(self) -> None:
+		"""Keep the middleware pairing key trimmed and unchanged after insert."""
+		if self.shift_key:
+			self.shift_key = str(self.shift_key).strip()
+
+	def validate_shift_key(self) -> None:
+		"""Keep shift_key unique when middleware sends a pairing key."""
+		if not self.shift_key:
 			return
+
+		if not self.is_new():
+			previous = frappe.db.get_value("Workforce Attendance", self.name, "shift_key")
+			if previous and previous != self.shift_key:
+				frappe.throw(_("Shift Key cannot be changed"))
 
 		if frappe.db.exists(
 			"Workforce Attendance",
-			{
+			{"shift_key": self.shift_key, "name": ["!=", self.name]},
+		):
+			frappe.throw(_("Shift Key {0} already exists").format(self.shift_key))
+
+	def validate_duplicate_attendance(self) -> None:
+		"""Prevent duplicate attendance for the same employee and date.
+
+		Records paired by shift_key are allowed to span midnight, so they are
+		not unique on calendar date.
+		"""
+		if self.shift_key or not (self.employee and self.attendance_date):
+			return
+
+		existing = frappe.get_all(
+			"Workforce Attendance",
+			filters={
 				"employee": self.employee,
 				"attendance_date": self.attendance_date,
-				"shift": self.shift,
 				"name": ["!=", self.name],
 			},
-		):
+			fields=["name", "shift_key"],
+			limit=20,
+		)
+		if any(not row.shift_key for row in existing):
 			frappe.throw(
-				_("Attendance already exists for Employee {0} on {1} for Shift {2}").format(
-					self.employee, self.attendance_date, self.shift
+				_("Attendance already exists for Employee {0} on {1}").format(
+					self.employee, self.attendance_date
 				)
 			)
 
